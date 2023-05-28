@@ -12,6 +12,7 @@ public class Game {
     private static final int NUMBER_OF_GAME_TILES = 3;
     private static final int WARRIOR_STARTING_POSITION = 0;
     private static final int MAGE_STARTING_POSITION = 2;
+    private final int BEGIN = ran.nextInt(2);
     private final Wizard wizard;
     private final Warrior warrior;
     
@@ -34,22 +35,20 @@ public class Game {
         while (warrior.getHealthPoints() > 0 && wizard.getHealthPoints() > 0) {
             playRound();
         }
-
-        if (warrior.getHealthPoints() == 0) {
-            System.out.println("WIN --> V");
-        } else {
-            System.out.println("WIN --> H");
-        }
     }
     public void playRound() {
         wizard.setPosition(nextPosition());
         warrior.setPosition(nextPosition());
         
         if (wizard.getPosition() == warrior.getPosition()) {
-                warrior.fight(wizard, diceRoll());
-                wizard.fight(warrior, diceRoll());
+                if (BEGIN == 0) {  // Ha BEGIN értéke 0
+                    warrior.fight(wizard, diceRoll());
+                    wizard.fight(warrior, diceRoll());
+                } else {  // Ha BEGIN értéke 1
+                    wizard.fight(warrior, diceRoll());
+                    warrior.fight(wizard, diceRoll());
+                }
                 printActualState(true);
-
         } else {
             printActualState(false);
         }

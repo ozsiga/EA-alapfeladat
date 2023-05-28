@@ -1,7 +1,5 @@
 package com.mycompany.eloszotottalkalmazasokalapfeladat;
 
-import java.util.Random;
-
 public class Character {
     private int healthPoints;
     private int position;
