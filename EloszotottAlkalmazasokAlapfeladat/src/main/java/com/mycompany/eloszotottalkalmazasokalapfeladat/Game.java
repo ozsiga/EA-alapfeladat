@@ -3,8 +3,6 @@ package com.mycompany.eloszotottalkalmazasokalapfeladat;
 import java.util.Random;
 
 public class Game {
-    private Character warrior;
-    private Character wizard;
     private final Random ran = new Random();
     private static final String POSITION_PLACEHOLDER = "_";
     private static final String FIGHT_PLACEHOLDER = "X";
@@ -14,16 +12,21 @@ public class Game {
     private static final int NUMBER_OF_GAME_TILES = 3;
     private static final int WARRIOR_STARTING_POSITION = 0;
     private static final int MAGE_STARTING_POSITION = 2;
-
+    private final Wizard wizard;
+    private final Warrior warrior;
+    
     public Game() {
-        warrior = new Character(true, "H");
-        wizard = new Character(false, "V");
+       this.warrior = new Warrior(WARRIOR_STARTING_POSITION, initHealth(), "H");
+       this.wizard = new Wizard(MAGE_STARTING_POSITION, initHealth(), "V");
+       printActualState(false);
     }
     
     private int diceRoll() {
         return ran.nextInt(6) + 1;
     }
-    
+    private int initHealth() {
+        return diceRoll() + 3;
+    }
     public void playGame() {
         while (warrior.getHealthPoints() > 0 && wizard.getHealthPoints() > 0) {
             playRound();
@@ -40,12 +43,16 @@ public class Game {
         warrior.move();
         wizard.move();
         if (wizard.getPosition() == warrior.getPosition()) {
-            warrior.setHealthPoints(warrior.getHealthPoints() - diceRoll());
-            if (wizard.getHealthPoints() > 0) {
-                wizard.setHealthPoints(wizard.getHealthPoints() - diceRoll());
+                warrior.fight(wizard, diceRoll());
+                wizard.fight(warrior, diceRoll());
+                printActualState(true);
+            if(warrior.getHealthPoints()< 0 && wizard.getHealthPoints()< 0) {
+                
             }
-            printActualState(true);
-        } else printActualState(false);
+
+        } else {
+            printActualState(false);
+        }
     }
     
     private void printActualState(boolean hasFight) {
@@ -73,7 +80,4 @@ public class Game {
         actualState.append(wizard);
         System.out.println(actualState);
     }
-
-
-
 }
