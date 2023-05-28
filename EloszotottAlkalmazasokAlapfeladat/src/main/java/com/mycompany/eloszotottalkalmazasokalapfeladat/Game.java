@@ -27,34 +27,33 @@ public class Game {
     private int initHealth() {
         return diceRoll() + 3;
     }
+    private int nextPosition() {
+        return ran.nextInt(3);
+    }
     public void playGame() {
         while (warrior.getHealthPoints() > 0 && wizard.getHealthPoints() > 0) {
             playRound();
         }
 
-        if (warrior.getHealthPoints() <= 0) {
+        if (warrior.getHealthPoints() == 0) {
             System.out.println("WIN --> V");
         } else {
             System.out.println("WIN --> H");
         }
     }
-
     public void playRound() {
-        warrior.move();
-        wizard.move();
+        wizard.setPosition(nextPosition());
+        warrior.setPosition(nextPosition());
+        
         if (wizard.getPosition() == warrior.getPosition()) {
                 warrior.fight(wizard, diceRoll());
                 wizard.fight(warrior, diceRoll());
                 printActualState(true);
-            if(warrior.getHealthPoints()< 0 && wizard.getHealthPoints()< 0) {
-                
-            }
 
         } else {
             printActualState(false);
         }
     }
-    
     private void printActualState(boolean hasFight) {
         StringBuilder actualState = new StringBuilder();
         if (hasFight) {

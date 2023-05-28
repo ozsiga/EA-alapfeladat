@@ -5,9 +5,7 @@ import java.util.Random;
 public class Character {
     private int healthPoints;
     private int position;
-    private String name;
-    private int randomD6;
-    private int randomNextPosition;
+    private final String name;
 
     public Character(int position, int healthPoint, String name) {
         this.position = position;
@@ -36,12 +34,6 @@ public class Character {
             throw new NegativeHealthException("Az életerő nem csökkenhet negatívra!");
         }
         healthPoints -= amount;
-    }
-
-    public void move() {
-        Random random = new Random();
-        this.randomNextPosition = random.nextInt(3);
-        position = this.randomNextPosition;
     }
 
     @Override
